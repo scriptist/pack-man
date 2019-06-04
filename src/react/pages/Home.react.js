@@ -1,5 +1,6 @@
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { Link } from "react-router-dom";
 
 import firebase from "../../firebase";
 import Login from "./Login.react";
@@ -14,7 +15,12 @@ function Home() {
     return <Login />;
   }
 
-  return <h1>Home</h1>;
+  return (
+    <>
+      <h1>Home</h1>
+      <Link to="/create">Create Trip</Link>
+    </>
+  );
 }
 
 export default Home;

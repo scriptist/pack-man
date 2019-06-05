@@ -7,6 +7,7 @@ import { Route, Redirect, Switch } from "react-router";
 import firebase from "../firebase";
 import Configure from "./pages/Configure.react";
 import CreateTrip from "./pages/CreateTrip.react";
+import Error from "./pages/Error.react";
 import Home from "./pages/Home.react";
 import List from "./pages/List.react";
 import Login from "./pages/Login.react";
@@ -46,7 +47,7 @@ function Root() {
 // Helpers
 
 function PrivateRoute({ component: Component, ...props }) {
-  const [user, loading] = useAuthState(firebase.auth());
+  const [user, loading, error] = useAuthState(firebase.auth());
 
   return (
     <Route
@@ -54,8 +55,10 @@ function PrivateRoute({ component: Component, ...props }) {
       render={componentProps => {
         if (loading) {
           return <Spinner />;
+        } else if (error) {
+          return <Error error={error} />;
         } else if (user) {
-          return <Component {...componentProps} />;
+          return <Component user={user} {...componentProps} />;
         } else {
           return <Redirect to="/login" />;
         }

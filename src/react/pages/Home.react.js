@@ -19,6 +19,8 @@ function Home() {
     <>
       <h1>Home</h1>
       <Link to="/create">Create Trip</Link>
+      <br />
+      <Link to="/configure">Configure</Link>
     </>
   );
 }

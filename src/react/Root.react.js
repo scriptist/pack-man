@@ -7,11 +7,11 @@ import { Route, Redirect, Switch } from "react-router";
 import firebase from "../firebase";
 import Configure from "./pages/Configure.react";
 import CreateTrip from "./pages/CreateTrip.react";
-import Error from "./pages/Error.react";
+import ErrorPage from "./pages/ErrorPage.react";
 import Home from "./pages/Home.react";
-import List from "./pages/List.react";
 import Login from "./pages/Login.react";
 import Spinner from "./pages/Spinner.react";
+import Trip from "./pages/Trip.react";
 
 function Root() {
   return (
@@ -22,7 +22,7 @@ function Root() {
           <Route path="/login" component={Login} />
           <PrivateRoute path="/configure" component={Configure} />
           <PrivateRoute path="/create" component={CreateTrip} />
-          <PrivateRoute path="/list" component={List} />
+          <PrivateRoute path="/trip/:id" component={Trip} />
           <Route>
             <Redirect to="/" />
           </Route>
@@ -56,7 +56,7 @@ function PrivateRoute({ component: Component, ...props }) {
         if (loading) {
           return <Spinner />;
         } else if (error) {
-          return <Error error={error} />;
+          return <ErrorPage error={error} />;
         } else if (user) {
           return <Component user={user} {...componentProps} />;
         } else {

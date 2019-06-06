@@ -16,7 +16,7 @@ function ConfigCategory({ category, onChange }) {
         name: "",
         frequency: {
           number: 1,
-          unit: "day"
+          unit: "trip"
         },
         conditions: []
       });

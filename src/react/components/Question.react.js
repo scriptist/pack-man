@@ -20,7 +20,15 @@ function Label({ children }) {
   return <div>{children}</div>;
 }
 
-function Fields({ name, options, onChange: onChangeProp, type, unit, value }) {
+function Fields({
+  name,
+  options,
+  onChange: onChangeProp,
+  type,
+  unit,
+  value,
+  ...props
+}) {
   const onChange = useCallback(
     e => {
       let v;
@@ -46,11 +54,16 @@ function Fields({ name, options, onChange: onChangeProp, type, unit, value }) {
 
   switch (type) {
     case "date-range":
-      return <DateRangeInput onChange={onChange} value={value} />;
+      return <DateRangeInput onChange={onChange} value={value} {...props} />;
     case "number":
       return (
         <>
-          <input onChange={onChange} type="number" value={value || ""} />
+          <input
+            onChange={onChange}
+            type="number"
+            value={Number.isFinite(value) ? value : ""}
+            {...props}
+          />
           {unit}
         </>
       );
@@ -62,6 +75,7 @@ function Fields({ name, options, onChange: onChangeProp, type, unit, value }) {
           multiple={multiple}
           onChange={onChange}
           value={value || (multiple ? [] : "")}
+          {...props}
         >
           {!multiple && !options.includes(value) && <option />}
           {options.map(o => (

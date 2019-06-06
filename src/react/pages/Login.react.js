@@ -3,7 +3,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { Redirect } from "react-router";
 
 import firebase from "../../firebase";
-import Error from "./Error.react";
+import ErrorPage from "./ErrorPage.react";
 import Spinner from "./Spinner.react";
 
 const { useCallback } = React;
@@ -19,7 +19,7 @@ function Login() {
   if (loading) {
     return <Spinner />;
   } else if (error) {
-    return <Error error={error} />;
+    return <ErrorPage error={error} />;
   } else if (user) {
     return <Redirect to="/" />;
   }

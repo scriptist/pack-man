@@ -1,10 +1,11 @@
 import React from "react";
 
+import firebase from "../../firebase";
 import Question from "../components/Question.react";
 
 const { useCallback, useMemo, useState } = React;
 
-function CreateTrip() {
+function CreateTrip({ history, user }) {
   const [values, setValues] = useState({});
 
   const onChange = useCallback(
@@ -14,9 +15,17 @@ function CreateTrip() {
     [values]
   );
 
-  const onSubmit = useCallback(e => {
-    e.preventDefault();
-  }, []);
+  const onSubmit = useCallback(
+    e => {
+      e.preventDefault();
+      const trip = firebase
+        .database()
+        .ref(`users/${user.uid}/trips`)
+        .push(values);
+      history.push(`/trip/${trip.key}`);
+    },
+    [history, user.uid, values]
+  );
 
   const duration = useMemo(
     () => {
@@ -46,6 +55,7 @@ function CreateTrip() {
         {duration > 6 && (
           <Question
             label="How long will you go between laundry trips?"
+            min={3}
             name="laundry"
             onChange={onChange}
             type="number"
@@ -63,6 +73,7 @@ function CreateTrip() {
         />
         <Question
           label="How many flights?"
+          min={0}
           name="flights"
           onChange={onChange}
           type="number"
@@ -71,6 +82,8 @@ function CreateTrip() {
         {values.flights > 0 && (
           <Question
             label="How many flights are overnight?"
+            max={values.flights}
+            min={0}
             name="overnightFlights"
             onChange={onChange}
             type="number"

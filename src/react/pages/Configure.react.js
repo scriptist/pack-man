@@ -3,8 +3,8 @@ import { useListVals } from "react-firebase-hooks/database";
 
 import defaultItems from "../../defaultItems";
 import firebase from "../../firebase";
-import Error from "./Error.react";
 import ConfigCategory from "../components/ConfigCategory.react";
+import ErrorPage from "./ErrorPage.react";
 import Spinner from "./Spinner.react";
 
 const { useCallback, useEffect, useMemo } = React;
@@ -38,7 +38,7 @@ function Configure({ user }) {
   if (loading || categories == null) {
     return <Spinner />;
   } else if (error) {
-    return <Error error={error} />;
+    return <ErrorPage error={error} />;
   }
 
   return (

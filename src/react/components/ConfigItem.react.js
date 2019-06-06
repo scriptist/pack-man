@@ -41,7 +41,7 @@ function ConfigItem({ item, onChange, onDelete }) {
         onChange={e => update("frequency.unit", e.target.value)}
         value={item.frequency.unit}
       >
-        {["day", "week", "flight", "overnight flight"].map(o => (
+        {["trip", "day", "week", "flight", "overnight flight"].map(o => (
           <option key={o} value={o}>
             {o}
           </option>

@@ -4,28 +4,38 @@ import { useListVals } from "react-firebase-hooks/database";
 import defaultItems from "../../defaultItems";
 import firebase from "../../firebase";
 import Error from "./Error.react";
+import ConfigCategory from "../components/ConfigCategory.react";
 import Spinner from "./Spinner.react";
 
-const { useEffect, useMemo } = React;
+const { useCallback, useEffect, useMemo } = React;
 
 function Configure({ user }) {
   const dbRef = useMemo(
     () => firebase.database().ref(`users/${user.uid}/items`),
     [user]
   );
-  const [value, loading, error] = useListVals(dbRef);
+  const [categories, loading, error] = useListVals(dbRef);
 
+  // Set default config if nothing is set yet
   useEffect(
     () => {
-      if (!loading && value.length === 0) {
-        // Set default configuration
+      if (!loading && categories.length === 0) {
         dbRef.set(defaultItems);
       }
     },
-    [dbRef, loading, value]
+    [dbRef, loading, categories]
   );
 
-  if (loading || value == null) {
+  const updateCategory = useCallback(
+    (i, value) => {
+      const newCategories = [...categories];
+      newCategories[i] = value;
+      dbRef.set(newCategories);
+    },
+    [categories, dbRef]
+  );
+
+  if (loading || categories == null) {
     return <Spinner />;
   } else if (error) {
     return <Error error={error} />;
@@ -34,6 +44,13 @@ function Configure({ user }) {
   return (
     <>
       <h1>Configure</h1>
+      {categories.map((category, i) => (
+        <ConfigCategory
+          category={category}
+          key={i}
+          onChange={v => updateCategory(i, v)}
+        />
+      ))}
     </>
   );
 }

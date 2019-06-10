@@ -1,9 +1,10 @@
 import React from "react";
 
 import firebase from "../../firebase";
+import { getDays } from "../../utils";
 import Question from "../components/Question.react";
 
-const { useCallback, useMemo, useState } = React;
+const { useCallback, useState } = React;
 
 function CreateTrip({ history, user }) {
   const [values, setValues] = useState({});
@@ -27,19 +28,9 @@ function CreateTrip({ history, user }) {
     [history, user.uid, values]
   );
 
-  const duration = useMemo(
-    () => {
-      const from = values.dates && values.dates[0];
-      const to = values.dates && values.dates[1];
-
-      if (from == null || to == null) {
-        return null;
-      }
-
-      const durationSecs = (new Date(to) - new Date(from)) / 1000;
-      return Math.round(durationSecs / 60 / 60 / 24);
-    },
-    [values.dates]
+  const duration = getDays(
+    values.dates && values.dates[0],
+    values.dates && values.dates[1]
   );
 
   return (
@@ -55,6 +46,7 @@ function CreateTrip({ history, user }) {
         {duration > 6 && (
           <Question
             label="How long will you go between laundry trips?"
+            max={duration}
             min={3}
             name="laundry"
             onChange={onChange}

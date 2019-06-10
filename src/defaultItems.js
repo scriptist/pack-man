@@ -1,6 +1,8 @@
+import { ClothingCategory, FreqUnits } from "./constants";
+
 export default [
   {
-    category: "Clothing",
+    category: ClothingCategory,
     permanent: true,
     items: [
       {
@@ -8,7 +10,7 @@ export default [
         name: "Pants",
         frequency: {
           number: 1,
-          unit: "day"
+          unit: FreqUnits.Day
         },
         conditions: []
       },
@@ -17,7 +19,7 @@ export default [
         name: "Tops",
         frequency: {
           number: 1,
-          unit: "day"
+          unit: FreqUnits.Day
         },
         conditions: []
       },
@@ -26,7 +28,7 @@ export default [
         name: "Underpants",
         frequency: {
           number: 1,
-          unit: "day"
+          unit: FreqUnits.Day
         },
         conditions: []
       },
@@ -35,7 +37,7 @@ export default [
         name: "Socks",
         frequency: {
           number: 1,
-          unit: "day"
+          unit: FreqUnits.Day
         },
         conditions: []
       }

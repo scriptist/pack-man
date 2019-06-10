@@ -1,6 +1,8 @@
 import React from "react";
 
-const { useCallback } = React;
+import { FreqUnits } from "../../constants";
+
+const { useCallback, useEffect } = React;
 
 function ConfigItem({ item, onChange, onDelete }) {
   const update = useCallback(
@@ -19,6 +21,19 @@ function ConfigItem({ item, onChange, onDelete }) {
     [item, onChange]
   );
 
+  useEffect(
+    () => {
+      const tripValue = 1;
+      if (
+        item.frequency.unit === FreqUnits.Trip &&
+        item.frequency.number !== tripValue
+      ) {
+        update("frequency.number", tripValue);
+      }
+    },
+    [item.frequency.unit, item.frequency.number, update]
+  );
+
   return (
     <div>
       <input
@@ -33,6 +48,7 @@ function ConfigItem({ item, onChange, onDelete }) {
       />
       per{" "}
       <input
+        disabled={item.frequency.unit === FreqUnits.Trip}
         onChange={e => update("frequency.number", parseInt(e.target.value, 10))}
         type="number"
         value={item.frequency.number}
@@ -41,7 +57,7 @@ function ConfigItem({ item, onChange, onDelete }) {
         onChange={e => update("frequency.unit", e.target.value)}
         value={item.frequency.unit}
       >
-        {["trip", "day", "week", "flight", "overnight flight"].map(o => (
+        {Object.values(FreqUnits).map(o => (
           <option key={o} value={o}>
             {o}
           </option>

@@ -5,8 +5,6 @@ import defaultItems from "../../defaultItems";
 import firebase from "../../firebase";
 import ConfigCategory from "../components/ConfigCategory.react";
 import ErrorPage from "./ErrorPage.react";
-import Heading from "../components/Heading.react";
-import Page from "../components/Page.react";
 import Spinner from "./Spinner.react";
 
 const { useCallback, useEffect, useMemo } = React;
@@ -44,18 +42,16 @@ function Configure({ user }) {
   }
 
   return (
-    <Page>
-      <Heading>Configure</Heading>
-      <div>
-        {categories.map((category, i) => (
-          <ConfigCategory
-            category={category}
-            key={i}
-            onChange={v => updateCategory(i, v)}
-          />
-        ))}
-      </div>
-    </Page>
+    <>
+      <h1>Configure</h1>
+      {categories.map((category, i) => (
+        <ConfigCategory
+          category={category}
+          key={i}
+          onChange={v => updateCategory(i, v)}
+        />
+      ))}
+    </>
   );
 }
 

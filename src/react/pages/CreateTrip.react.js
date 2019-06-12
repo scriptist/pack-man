@@ -2,6 +2,9 @@ import React from "react";
 
 import firebase from "../../firebase";
 import { getDays } from "../../utils";
+import Button from "../components/Button.react";
+import Heading from "../components/Heading.react";
+import Page from "../components/Page.react";
 import Question from "../components/Question.react";
 
 const { useCallback, useState } = React;
@@ -34,8 +37,8 @@ function CreateTrip({ history, user }) {
   );
 
   return (
-    <>
-      <h1>Create trip</h1>
+    <Page>
+      <Heading>Create trip</Heading>
       <form onSubmit={onSubmit}>
         <Question
           name="dates"
@@ -90,9 +93,9 @@ function CreateTrip({ history, user }) {
           type="multiselect"
           value={values.activities}
         />
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
-    </>
+    </Page>
   );
 }
 

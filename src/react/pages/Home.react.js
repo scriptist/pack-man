@@ -1,9 +1,13 @@
+import styled from "@emotion/styled";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 
 import firebase from "../../firebase";
+import Heading from "../components/Heading.react";
+import { LinkButton } from "../components/Button.react";
 import Login from "./Login.react";
+import Page from "../components/Page.react";
 import Spinner from "./Spinner.react";
 
 function Home() {
@@ -16,12 +20,12 @@ function Home() {
   }
 
   return (
-    <>
-      <h1>Home</h1>
-      <Link to="/create">Create Trip</Link>
+    <Page>
+      <Heading>Home</Heading>
+      <LinkButton to="/create">Create Trip</LinkButton>
       <br />
-      <Link to="/configure">Configure</Link>
-    </>
+      <LinkButton to="/configure">Configure</LinkButton>
+    </Page>
   );
 }
 

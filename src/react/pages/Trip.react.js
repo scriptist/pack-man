@@ -5,6 +5,8 @@ import { ClothingCategory, FreqUnits } from "../../constants";
 import firebase from "../../firebase";
 import { getDays } from "../../utils";
 import ErrorPage from "./ErrorPage.react";
+import Heading from "../components/Heading.react";
+import Page from "../components/Page.react";
 import Spinner from "./Spinner.react";
 
 function Trip({ match, user }) {
@@ -26,24 +28,26 @@ function Trip({ match, user }) {
   console.log(categories[3].items);
 
   return (
-    <>
-      <h1>Trip</h1>
-      {categories.map((category, i) => (
-        <div key={i}>
-          <h2>{category.category}</h2>
-          <ul>
-            {(category.items || []).map((item, i) => (
-              <Item
-                isClothing={category.category === ClothingCategory}
-                item={item}
-                key={i}
-                trip={trip}
-              />
-            ))}
-          </ul>
-        </div>
-      ))}
-    </>
+    <Page>
+      <Heading>Trip</Heading>
+      <div>
+        {categories.map((category, i) => (
+          <div key={i}>
+            <h2>{category.category}</h2>
+            <ul>
+              {(category.items || []).map((item, i) => (
+                <Item
+                  isClothing={category.category === ClothingCategory}
+                  item={item}
+                  key={i}
+                  trip={trip}
+                />
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </Page>
   );
 }
 
@@ -86,9 +90,9 @@ function getFrequencyUnitCount(isClothing, unit, trip) {
         : getDays(trip.dates[0], trip.dates[1]);
     case FreqUnits.Week:
       return Math.ceil(
-        isClothing
+        (isClothing
           ? getClothingDays(unit, trip)
-          : getDays(trip.dates[0], trip.dates[1]) / 7
+          : getDays(trip.dates[0], trip.dates[1])) / 7
       );
     case FreqUnits.Flight:
       return trip.flights || 0;

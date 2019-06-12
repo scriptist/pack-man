@@ -1,9 +1,10 @@
+import { css, Global } from "@emotion/core";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { css, Global } from "@emotion/core";
 import { HashRouter as Router } from "react-router-dom";
 import { Route, Redirect, Switch } from "react-router";
 
+import { Colors } from "../constants";
 import firebase from "../firebase";
 import Configure from "./pages/Configure.react";
 import CreateTrip from "./pages/CreateTrip.react";
@@ -31,12 +32,16 @@ function Root() {
       <Global
         styles={css`
           body {
+            background: ${Colors.Background};
+            color: ${Colors.Foreground};
             margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-              "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-              "Helvetica Neue", sans-serif;
+            font-family: Montserrat, sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+          }
+
+          #root {
+            min-height: 100vh;
           }
         `}
       />

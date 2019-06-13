@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import { css, jsx } from "@emotion/core";
 import React from "react";
 
 import firebase from "../../firebase";
@@ -41,6 +43,7 @@ function CreateTrip({ history, user }) {
       <Heading>Create trip</Heading>
       <form onSubmit={onSubmit}>
         <Question
+          label="When is your trip?"
           name="dates"
           onChange={onChange}
           type="date-range"
@@ -93,7 +96,14 @@ function CreateTrip({ history, user }) {
           type="multiselect"
           value={values.activities}
         />
-        <Button type="submit">Submit</Button>
+        <Button
+          css={css`
+            width: 100%;
+          `}
+          type="submit"
+        >
+          Submit
+        </Button>
       </form>
     </Page>
   );

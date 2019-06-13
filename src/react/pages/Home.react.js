@@ -1,7 +1,5 @@
-import styled from "@emotion/styled";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Link } from "react-router-dom";
 
 import firebase from "../../firebase";
 import Heading from "../components/Heading.react";

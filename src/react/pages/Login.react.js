@@ -5,6 +5,9 @@ import { Redirect } from "react-router";
 import firebase from "../../firebase";
 import ErrorPage from "./ErrorPage.react";
 import Spinner from "./Spinner.react";
+import Button from "../components/Button.react";
+import Heading from "../components/Heading.react";
+import Page from "../components/Page.react";
 
 const { useCallback } = React;
 
@@ -25,12 +28,12 @@ function Login() {
   }
 
   return (
-    <>
-      <h1>Log in</h1>
-      <button type="button" onClick={login}>
+    <Page>
+      <Heading>Log in</Heading>
+      <Button type="button" onClick={login}>
         Log in with Google
-      </button>
-    </>
+      </Button>
+    </Page>
   );
 }
 

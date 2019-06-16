@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import { Colors } from "../../constants";
 
-const style = css`
+const Button = styled.button`
   background: none;
   border: 1px solid;
   color: inherit;
@@ -20,8 +20,6 @@ const style = css`
     background: ${Colors.SubtleForeground};
   }
 `;
-
-const Button = styled.button(style);
-export const LinkButton = styled(Link)(style);
+export const LinkButton = Button.withComponent(Link);
 
 export default Button;

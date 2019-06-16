@@ -3,7 +3,7 @@ import { useListVals } from "react-firebase-hooks/database";
 
 import defaultItems from "../../defaultItems";
 import firebase from "../../firebase";
-import ConfigCategory from "../components/ConfigCategory.react";
+import Category from "../components/config/Category.react";
 import ErrorPage from "./ErrorPage.react";
 import Heading from "../components/Heading.react";
 import Page from "../components/Page.react";
@@ -48,7 +48,7 @@ function Configure({ user }) {
       <Heading>Configure</Heading>
       <div>
         {categories.map((category, i) => (
-          <ConfigCategory
+          <Category
             category={category}
             key={i}
             onChange={v => updateCategory(i, v)}

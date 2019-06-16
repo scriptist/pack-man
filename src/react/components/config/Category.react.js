@@ -1,10 +1,12 @@
+import styled from "@emotion/styled";
 import React from "react";
 
-import ConfigItem from "./ConfigItem.react";
+import Item from "./Item.react";
+import SmallButton from "./SmallButton.react";
 
 const { useCallback } = React;
 
-function ConfigCategory({ category, onChange }) {
+function Category({ category, onChange }) {
   const createItem = useCallback(
     () => {
       const newCategory = {
@@ -47,18 +49,18 @@ function ConfigCategory({ category, onChange }) {
     <div>
       <h2>{category.category}</h2>
       {(category.items || []).map((item, i) => (
-        <ConfigItem
+        <Item
           item={item}
           key={i}
           onChange={v => updateItem(i, v)}
           onDelete={v => deleteItem(i)}
         />
       ))}
-      <button onClick={createItem} type="button">
+      <SmallButton onClick={createItem} type="button">
         +
-      </button>
+      </SmallButton>
     </div>
   );
 }
 
-export default ConfigCategory;
+export default Category;

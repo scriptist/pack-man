@@ -11,6 +11,9 @@ import Question from "../components/Question.react";
 
 const { useCallback, useState } = React;
 
+const LAUNDRY_MIN_DAYS = 7;
+const LAUNDRY_MIN_VALUE = 3;
+
 function CreateTrip({ history, user }) {
   const [values, setValues] = useState({});
 
@@ -38,6 +41,8 @@ function CreateTrip({ history, user }) {
     values.dates && values.dates[1]
   );
 
+  const validation = useValidate(values);
+
   return (
     <Page>
       <Heading>Create trip</Heading>
@@ -49,11 +54,11 @@ function CreateTrip({ history, user }) {
           type="date-range"
           value={values.dates}
         />
-        {duration > 6 && (
+        {duration >= LAUNDRY_MIN_DAYS && (
           <Question
             label="How long will you go between laundry trips?"
             max={duration}
-            min={3}
+            min={LAUNDRY_MIN_VALUE}
             name="laundry"
             onChange={onChange}
             type="number"
@@ -100,6 +105,7 @@ function CreateTrip({ history, user }) {
           css={css`
             width: 100%;
           `}
+          disabled={validation != null}
           type="submit"
         >
           Submit
@@ -107,6 +113,39 @@ function CreateTrip({ history, user }) {
       </form>
     </Page>
   );
+}
+
+// Validation
+
+const MANDATORY_TEXT = "This field is mandatory";
+const validators = {
+  dates: v =>
+    v == null || v[0] == null || v[1] == null ? MANDATORY_TEXT : null,
+  laundry: (v, allValues) =>
+    getDays(
+      allValues.dates && allValues.dates[0],
+      allValues.dates && allValues.dates[1]
+    ) >= LAUNDRY_MIN_DAYS &&
+    (v == null || v < LAUNDRY_MIN_VALUE)
+      ? MANDATORY_TEXT
+      : null,
+  type: v => (v == null ? MANDATORY_TEXT : null),
+  flights: v => (v == null || v < 0 ? MANDATORY_TEXT : null),
+  overnightFlights: (v, allValues) =>
+    allValues.flights > 0 && (v == null || v < 0) ? MANDATORY_TEXT : null
+};
+
+function useValidate(values) {
+  const validation = Object.entries(validators)
+    .map(([key, validate]) => [key, validate && validate(values[key], values)])
+    .reduce((acc, [key, result]) => {
+      if (result) {
+        acc[key] = result;
+      }
+      return acc;
+    }, {});
+
+  return Object.keys(validation).length === 0 ? null : validation;
 }
 
 export default CreateTrip;

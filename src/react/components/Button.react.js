@@ -15,8 +15,13 @@ const Button = styled.button`
   transition: background 0.2s;
   width: 200px;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: ${Colors.SubtleForeground};
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
   }
 `;
 export const LinkButton = Button.withComponent(Link);

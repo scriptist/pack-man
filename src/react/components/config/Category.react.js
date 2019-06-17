@@ -2,6 +2,7 @@ import React from "react";
 
 import Item from "./Item.react";
 import SmallButton from "./SmallButton.react";
+import { Heading2 } from "../Heading.react";
 
 const { useCallback } = React;
 
@@ -46,7 +47,7 @@ function Category({ category, onChange }) {
 
   return (
     <div>
-      <h2>{category.category}</h2>
+      <Heading2>{category.category}</Heading2>
       {(category.items || []).map((item, i) => (
         <Item
           item={item}

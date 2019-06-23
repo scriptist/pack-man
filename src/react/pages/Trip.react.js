@@ -26,7 +26,7 @@ function Trip({ match, user }) {
 
   return (
     <Page>
-      <Heading>Trip</Heading>
+      <Heading back>Trip</Heading>
       <div>
         {categories.map((category, i) => (
           <Category category={category} key={i} trip={trip} />

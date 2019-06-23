@@ -67,7 +67,7 @@ function Configure({ user }) {
 
   return (
     <Page>
-      <Heading>Configure</Heading>
+      <Heading back>Configure</Heading>
       <Tabs onChange={setTab} selected={tab} tabs={Object.values(TabOptions)} />
       {tab === TabOptions.List && (
         <Categories
@@ -76,7 +76,9 @@ function Configure({ user }) {
           onChange={c => listDbRef.set(c)}
         />
       )}
-      {tab === TabOptions.Activities && <Activities activities={activities} />}
+      {tab === TabOptions.Activities && (
+        <Activities activities={activities} onChange={a => actDbRef.set(a)} />
+      )}
     </Page>
   );
 }

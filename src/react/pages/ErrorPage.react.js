@@ -1,13 +1,15 @@
 import React from "react";
 
+import Heading from "../components/Heading.react";
+
 function ErrorPage({ error }) {
   console.error(error);
 
   return (
     <>
-      <h1>
+      <Heading back>
         {error.name}: {error.code}
-      </h1>
+      </Heading>
       {error.message}
       <pre>{error.stack}</pre>
     </>

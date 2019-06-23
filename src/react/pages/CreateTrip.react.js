@@ -63,7 +63,7 @@ function CreateTrip({ history, user }) {
 
   return (
     <Page>
-      <Heading>Create trip</Heading>
+      <Heading back>Create trip</Heading>
       <form onSubmit={onSubmit}>
         <Question
           label="When is your trip?"

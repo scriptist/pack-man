@@ -5,7 +5,7 @@ import { Colors, FreqUnits } from "../../../constants";
 
 const { useCallback, useEffect, useRef, useState } = React;
 
-function Item({ frequency, onChange }) {
+function Frequency({ frequency, onChange }) {
   const { number, unit } = frequency;
 
   useEnforceTripValue(frequency, onChange);
@@ -121,11 +121,11 @@ const Button = styled.button`
 
 const Popup = styled.div`
   background: ${Colors.BackgroundDark};
+  bottom: 0;
+  left: 0;
+  padding: 0;
   position: absolute;
   top: 0;
-  left: 0;
-  bottom: 0;
-  padding: 0;
   white-space: nowrap;
 `;
 
@@ -143,4 +143,4 @@ const NumberField = styled(Field)`
 
 const UnitField = styled(Field.withComponent("select"))``;
 
-export default Item;
+export default Frequency;

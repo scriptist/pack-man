@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import React from "react";
 
 import { Colors } from "../../../constants";
+import Conditions from "./Conditions.react";
 import Frequency from "./Frequency.react";
 import SmallButton from "./SmallButton.react";
 
@@ -28,6 +29,10 @@ function Item({ item, onChange, onDelete }) {
         onChange={e => update("name", e.target.value)}
         type="text"
         value={item.name}
+      />
+      <Conditions
+        conditions={item.conditions || []}
+        onChange={c => update("conditions", c)}
       />
       <SmallButton onClick={onDelete} type="button">
         &times;

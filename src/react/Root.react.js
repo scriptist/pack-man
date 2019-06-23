@@ -43,6 +43,15 @@ function Root() {
           #root {
             min-height: 100vh;
           }
+
+          body::-webkit-scrollbar {
+            width: 12px;
+          }
+
+          body::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            background-color: ${Colors.BackgroundDark};
+          }
         `}
       />
     </>

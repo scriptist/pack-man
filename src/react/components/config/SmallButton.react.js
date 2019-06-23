@@ -2,10 +2,10 @@ import styled from "@emotion/styled";
 
 import { Colors } from "../../../constants";
 
-const Button = styled.button`
-  background: none;
+const SmallButton = styled.button`
+  background: ${props => (props.invert ? Colors.BackgroundDark : "none")};
   border: none;
-  color: ${Colors.BackgroundDark};
+  color: ${props => (props.invert ? Colors.Foreground : Colors.BackgroundDark)};
   cursor: pointer;
   font: inherit;
   font-size: 32px;
@@ -16,4 +16,4 @@ const Button = styled.button`
   }
 `;
 
-export default Button;
+export default SmallButton;

@@ -5,9 +5,11 @@ import Item from "./Item.react";
 import SmallButton from "./SmallButton.react";
 import { Heading2 } from "../Heading.react";
 
-const { useCallback } = React;
+const { useCallback, useEffect, useRef } = React;
 
 function Category({ activities, category, onChange }) {
+  const root = useRef();
+
   const createItem = useCallback(
     () => {
       const newCategory = {
@@ -46,8 +48,27 @@ function Category({ activities, category, onChange }) {
     [category, onChange]
   );
 
+  useEffect(
+    () => {
+      const onKeyDown = e => {
+        if (
+          e.key === "Enter" &&
+          e.target.nodeName === "INPUT" &&
+          e.target.type === "text" &&
+          root.current != null &&
+          root.current.contains(e.target)
+        ) {
+          createItem();
+        }
+      };
+      document.addEventListener("keydown", onKeyDown);
+      return () => document.removeEventListener("keydown", onKeyDown);
+    },
+    [createItem]
+  );
+
   return (
-    <Root>
+    <Root ref={root}>
       <Heading2>{category.category}</Heading2>
       {(category.items || []).map((item, i) => (
         <Item

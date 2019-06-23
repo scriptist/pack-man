@@ -26,6 +26,7 @@ function Item({ activities, item, onChange, onDelete }) {
         value={item.count}
       />
       <NameField
+        autoFocus={item.name === ""}
         onChange={e => update("name", e.target.value)}
         type="text"
         value={item.name}

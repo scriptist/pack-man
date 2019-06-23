@@ -39,6 +39,10 @@ const Back = styled(Link)`
   &:hover {
     color: ${Colors.Foreground};
   }
+
+  @media (max-width: 450px) {
+    display: none;
+  }
 `;
 
 export const Heading2 = styled(HeadingStyle.withComponent("h2"))`

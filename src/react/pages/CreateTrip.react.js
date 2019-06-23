@@ -27,10 +27,11 @@ function CreateTrip({ history, user }) {
   const onSubmit = useCallback(
     e => {
       e.preventDefault();
+
       const trip = firebase
         .database()
         .ref(`users/${user.uid}/trips`)
-        .push(values);
+        .push(postProcessValues(values));
       history.push(`/trip/${trip.key}`);
     },
     [history, user.uid, values]
@@ -146,6 +147,20 @@ function useValidate(values) {
     }, {});
 
   return Object.keys(validation).length === 0 ? null : validation;
+}
+
+// Post-processing
+function postProcessValues(values) {
+  const v = { ...values };
+
+  if (
+    v.laundry &&
+    v.laundry === getDays(v.dates && v.dates[0], v.dates && v.dates[1])
+  ) {
+    v.laundry = null;
+  }
+
+  return v;
 }
 
 export default CreateTrip;

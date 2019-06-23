@@ -30,7 +30,7 @@ function Category({ category, onChange, trip }) {
 
 function mapItem(item, trip, isClothing) {
   const count = getItemCount(isClothing, item, trip);
-  if (!checkItemConditions(item, trip) || count === 0) {
+  if (!checkConditions(item.conditions || [], trip) || count === 0) {
     return null;
   }
 
@@ -40,9 +40,15 @@ function mapItem(item, trip, isClothing) {
   };
 }
 
-function checkItemConditions(item, trip) {
-  // TODO
-  return true;
+function checkConditions(conditions, trip) {
+  return conditions.every(([field, value]) => {
+    const tripValue = trip[field];
+    if (typeof value === "boolean") {
+      return !!tripValue === value;
+    }
+
+    return tripValue === value;
+  });
 }
 
 function getItemCount(isClothing, item, trip) {

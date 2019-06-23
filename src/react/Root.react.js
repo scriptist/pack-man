@@ -20,10 +20,10 @@ function Root() {
       <Router>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/login" component={Login} />
-          <PrivateRoute path="/configure" component={Configure} />
-          <PrivateRoute path="/create" component={CreateTrip} />
-          <PrivateRoute path="/trip/:id" component={Trip} />
+          <Route exact path="/login" component={Login} />
+          <PrivateRoute exact path="/configure" component={Configure} />
+          <PrivateRoute exact path="/create" component={CreateTrip} />
+          <PrivateRoute exact path="/trip/:id" component={Trip} />
           <Route>
             <Redirect to="/" />
           </Route>

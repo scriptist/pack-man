@@ -8,7 +8,7 @@ import SmallButton from "./SmallButton.react";
 
 const { useCallback } = React;
 
-function Item({ item, onChange, onDelete }) {
+function Item({ activities, item, onChange, onDelete }) {
   const update = useCallback(
     (key, value) => onChange({ ...item, [key]: value }),
     [item, onChange]
@@ -31,6 +31,7 @@ function Item({ item, onChange, onDelete }) {
         value={item.name}
       />
       <Conditions
+        activities={activities}
         conditions={item.conditions || []}
         onChange={c => update("conditions", c)}
       />
@@ -45,7 +46,7 @@ const Row = styled.div`
   display: flex;
   max-width: 100%;
   margin-bottom: 8px;
-  width: 650px;
+  width: 100%;
 `;
 
 const Field = styled.input`
@@ -54,6 +55,7 @@ const Field = styled.input`
   border-bottom: 2px solid ${Colors.BackgroundDark};
   color: inherit;
   font: inherit;
+  width: 50px;
 `;
 
 const CountField = styled(Field)`

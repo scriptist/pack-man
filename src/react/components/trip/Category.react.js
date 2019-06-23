@@ -45,6 +45,8 @@ function checkConditions(conditions, trip) {
     const tripValue = trip[field];
     if (typeof value === "boolean") {
       return !!tripValue === value;
+    } else if (Array.isArray(tripValue)) {
+      return tripValue.includes(value);
     }
 
     return tripValue === value;

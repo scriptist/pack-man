@@ -13,23 +13,38 @@ const defaultConditions = [
   ["overnightFlights", true]
 ];
 
-const ConditionsDropdown = React.forwardRef(({ conditions, onSelect }, ref) => (
-  <Root ref={ref}>
-    {defaultConditions.map((c, i) => (
-      <ConditionButton
-        condition={c}
-        conditions={conditions}
-        key={i}
-        onSelect={onSelect}
-      />
-    ))}
-  </Root>
-));
+const ConditionsDropdown = React.forwardRef(
+  ({ activities, conditions, onSelect }, ref) => {
+    const possibleConditions = [
+      ...defaultConditions,
+      ...activities.map(a => ["activities", a])
+    ];
+
+    return (
+      <Root ref={ref}>
+        {possibleConditions.map((c, i) => (
+          <ConditionButton
+            condition={c}
+            conditions={conditions}
+            key={i}
+            onSelect={onSelect}
+          />
+        ))}
+      </Root>
+    );
+  }
+);
 
 // Helpers
 
 function ConditionButton({ condition, conditions, onSelect }) {
-  if (conditions.find(c => c[0] === condition[0])) {
+  if (
+    conditions.find(
+      c =>
+        c[0] === condition[0] &&
+        (condition[0] !== "activities" || c[1] === condition[1])
+    )
+  ) {
     return null;
   }
 

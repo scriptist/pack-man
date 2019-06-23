@@ -1,20 +1,31 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import React from "react";
+import { useListVals } from "react-firebase-hooks/database";
 
 import firebase from "../../firebase";
 import { getDays } from "../../utils";
 import Button from "../components/Button.react";
+import ErrorPage from "./ErrorPage.react";
 import Heading from "../components/Heading.react";
 import Page from "../components/Page.react";
 import Question from "../components/Question.react";
+import Spinner from "./Spinner.react";
 
-const { useCallback, useState } = React;
+const { useCallback, useMemo, useState } = React;
 
 const LAUNDRY_MIN_DAYS = 7;
 const LAUNDRY_MIN_VALUE = 3;
 
 function CreateTrip({ history, user }) {
+  // Activities
+  const dbRef = useMemo(
+    () => firebase.database().ref(`users/${user.uid}/activities`),
+    [user]
+  );
+  const [activities, loading, error] = useListVals(dbRef);
+
+  // Form handling
   const [values, setValues] = useState({});
 
   const onChange = useCallback(
@@ -43,6 +54,12 @@ function CreateTrip({ history, user }) {
   );
 
   const validation = useValidate(values);
+
+  if (loading) {
+    return <Spinner />;
+  } else if (error) {
+    return <ErrorPage error={error} />;
+  }
 
   return (
     <Page>
@@ -98,7 +115,7 @@ function CreateTrip({ history, user }) {
           label="Activities"
           name="activities"
           onChange={onChange}
-          options={["Drive", "Gym", "Swim", "Friends", "Recruiting"]}
+          options={activities}
           type="multiselect"
           value={values.activities}
         />

@@ -1,60 +1,82 @@
 import React from "react";
 import { useListVals } from "react-firebase-hooks/database";
+import keyMirror from "keymirror";
 
-import defaultItems from "../../defaultItems";
+import {
+  activities as defaultActivities,
+  list as defaultList
+} from "../../defaults";
 import firebase from "../../firebase";
-import Category from "../components/config/Category.react";
+import Activities from "../components/config/Activities.react";
+import Categories from "../components/config/Categories.react";
 import ErrorPage from "./ErrorPage.react";
 import Heading from "../components/Heading.react";
 import Page from "../components/Page.react";
 import Spinner from "./Spinner.react";
+import Tabs from "../components/Tabs.react";
 
-const { useCallback, useEffect, useMemo } = React;
+const { useEffect, useMemo, useState } = React;
+
+const TabOptions = keyMirror({
+  List: null,
+  Activities: null
+});
 
 function Configure({ user }) {
-  const dbRef = useMemo(
+  // Tabs
+  const [tab, setTab] = useState(TabOptions.List);
+
+  // List
+  const listDbRef = useMemo(
     () => firebase.database().ref(`users/${user.uid}/items`),
     [user]
   );
-  const [categories, loading, error] = useListVals(dbRef);
+  const [list, listLoading, listError] = useListVals(listDbRef);
+
+  // Activities
+  const actDbRef = useMemo(
+    () => firebase.database().ref(`users/${user.uid}/activities`),
+    [user]
+  );
+  const [activities, actLoading, actError] = useListVals(actDbRef);
 
   // Set default config if nothing is set yet
   useEffect(
     () => {
-      if (!loading && categories.length === 0) {
-        dbRef.set(defaultItems);
+      if (!listLoading && list.length === 0) {
+        listDbRef.set(defaultList);
       }
     },
-    [dbRef, loading, categories]
+    [listDbRef, listLoading, list.length]
   );
 
-  const updateCategory = useCallback(
-    (i, value) => {
-      const newCategories = [...categories];
-      newCategories[i] = value;
-      dbRef.set(newCategories);
+  useEffect(
+    () => {
+      if (!actLoading && activities.length === 0) {
+        actDbRef.set(defaultActivities);
+      }
     },
-    [categories, dbRef]
+    [actDbRef, actLoading, activities.length]
   );
 
-  if (loading || categories == null) {
+  if (listLoading || actLoading) {
     return <Spinner />;
-  } else if (error) {
-    return <ErrorPage error={error} />;
+  } else if (listError || actError) {
+    return <ErrorPage error={listError || actError} />;
   }
 
   return (
     <Page>
       <Heading>Configure</Heading>
-      <div>
-        {categories.map((category, i) => (
-          <Category
-            category={category}
-            key={i}
-            onChange={v => updateCategory(i, v)}
-          />
-        ))}
-      </div>
+      <Tabs onChange={setTab} selected={tab} tabs={Object.values(TabOptions)} />
+      {tab === TabOptions.List && (
+        <Categories
+          activities={activities}
+          categories={list}
+          onChange={c => listDbRef.set(c)}
+        />
+      )}
+      {tab === TabOptions.Activities && <Activities activities={activities} />}
     </Page>
   );
 }

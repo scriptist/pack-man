@@ -1,6 +1,8 @@
 import { ClothingCategory, FreqUnits } from "./constants";
 
-export default [
+export const activities = ["Drive", "Friends", "Gym", "Recruiting", "Swim"];
+
+export const list = [
   {
     category: ClothingCategory,
     permanent: true,

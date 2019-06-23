@@ -8,7 +8,7 @@ import SmallButton from "./SmallButton.react";
 
 const { useCallback, useEffect, useRef, useState } = React;
 
-function Conditions({ conditions, onChange }) {
+function Conditions({ activities, conditions, onChange }) {
   const dropdown = useRef();
   const [open, setOpen] = useState(false);
 
@@ -63,6 +63,7 @@ function Conditions({ conditions, onChange }) {
       </SmallButton>
       {open && (
         <ConditionsDropdown
+          activities={activities}
           conditions={conditions}
           onSelect={onAddCondition}
           ref={dropdown}

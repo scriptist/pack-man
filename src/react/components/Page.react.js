@@ -5,6 +5,8 @@ const Page = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
+  max-width: 650px;
   min-height: 100vh;
   padding: 20px;
 `;

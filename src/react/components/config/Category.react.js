@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import React from "react";
 
 import Item from "./Item.react";
@@ -6,7 +7,7 @@ import { Heading2 } from "../Heading.react";
 
 const { useCallback } = React;
 
-function Category({ category, onChange }) {
+function Category({ activities, category, onChange }) {
   const createItem = useCallback(
     () => {
       const newCategory = {
@@ -46,10 +47,11 @@ function Category({ category, onChange }) {
   );
 
   return (
-    <div>
+    <Root>
       <Heading2>{category.category}</Heading2>
       {(category.items || []).map((item, i) => (
         <Item
+          activities={activities}
           item={item}
           key={i}
           onChange={v => updateItem(i, v)}
@@ -59,8 +61,12 @@ function Category({ category, onChange }) {
       <SmallButton onClick={createItem} type="button">
         +
       </SmallButton>
-    </div>
+    </Root>
   );
 }
+
+const Root = styled.div`
+  width: 100%;
+`;
 
 export default Category;

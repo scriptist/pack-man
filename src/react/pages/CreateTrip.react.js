@@ -12,18 +12,16 @@ import Page from "../components/Page.react";
 import Question from "../components/Question.react";
 import Spinner from "./Spinner.react";
 
-const { useCallback, useMemo, useState } = React;
+const { useCallback, useState } = React;
 
 const LAUNDRY_MIN_DAYS = 7;
 const LAUNDRY_MIN_VALUE = 3;
 
 function CreateTrip({ history, user }) {
   // Activities
-  const dbRef = useMemo(
-    () => firebase.database().ref(`users/${user.uid}/activities`),
-    [user]
+  const [activities, loading, error] = useListVals(
+    firebase.database().ref(`users/${user.uid}/activities`)
   );
-  const [activities, loading, error] = useListVals(dbRef);
 
   // Form handling
   const [values, setValues] = useState({});

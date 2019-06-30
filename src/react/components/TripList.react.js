@@ -31,19 +31,12 @@ function TripList({ user }) {
     <>
       <Heading2WithMargin>Upcoming Trips</Heading2WithMargin>
       {upcomingTrips.map(trip => (
-        <Trip key={trip.key} trip={trip} />
+        <div key={trip.key}>
+          <LinkButton to={`/trip/${trip.key}`}>
+            {trip.val().dates.join(" - ")}
+          </LinkButton>
+        </div>
       ))}
-    </>
-  );
-}
-
-function Trip({ trip }) {
-  return (
-    <>
-      <LinkButton key={trip.key} to={`/trip/${trip.key}`}>
-        {trip.val().dates.join(" - ")}
-      </LinkButton>
-      <br />
     </>
   );
 }

@@ -8,12 +8,32 @@ import Heading from "../components/Heading.react";
 import Page from "../components/Page.react";
 import Spinner from "./Spinner.react";
 
+const { useCallback, useMemo } = React;
+
 function Trip({ match, user }) {
-  const [trip, tripLoading, tripError] = useObjectVal(
-    firebase.database().ref(`users/${user.uid}/trips/${match.params.id}`)
+  const tripDbRef = useMemo(
+    () => firebase.database().ref(`users/${user.uid}/trips/${match.params.id}`),
+    [match.params.id, user.uid]
   );
+  const [trip, tripLoading, tripError] = useObjectVal(tripDbRef);
   const [categories, catLoading, catError] = useListVals(
     firebase.database().ref(`users/${user.uid}/items`)
+  );
+
+  window.t = tripDbRef;
+  const onItemChange = useCallback(
+    (name, checked) => {
+      const ref = tripDbRef.child("checkedItems");
+      let val = trip.checkedItems || [];
+      if (checked) {
+        val = [...val, name];
+      } else {
+        val = val.filter(n => n !== name);
+      }
+
+      ref.set(val);
+    },
+    [trip, tripDbRef]
   );
 
   if (tripError || catError) {
@@ -29,7 +49,12 @@ function Trip({ match, user }) {
       <Heading back>Trip</Heading>
       <div>
         {categories.map((category, i) => (
-          <Category category={category} key={i} trip={trip} />
+          <Category
+            category={category}
+            onItemChange={onItemChange}
+            key={i}
+            trip={trip}
+          />
         ))}
       </div>
     </Page>

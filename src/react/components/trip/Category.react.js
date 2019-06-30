@@ -5,9 +5,9 @@ import { getDays } from "../../../utils";
 import { Heading2 } from "../Heading.react";
 import Item from "./Item.react";
 
-function Category({ category, onChange, trip }) {
-  const items = (category.items || [])
-    .map(item => mapItem(item, trip, category === ClothingCategory))
+function Category({ category, onItemChange, trip }) {
+  const items = category.items
+    .map(item => mapItem(item, trip, category.category === ClothingCategory))
     .filter(Boolean);
 
   if (items.length === 0) {
@@ -17,11 +17,9 @@ function Category({ category, onChange, trip }) {
   return (
     <div>
       <Heading2>{category.category}</Heading2>
-      <ul>
-        {items.map((item, i) => (
-          <Item key={i} {...item} />
-        ))}
-      </ul>
+      {items.map((item, i) => (
+        <Item key={i} onChange={onItemChange} {...item} />
+      ))}
     </div>
   );
 }
@@ -29,12 +27,13 @@ function Category({ category, onChange, trip }) {
 // Helpers
 
 function mapItem(item, trip, isClothing) {
-  const count = getItemCount(isClothing, item, trip);
+  const count = getItemCount(item, trip, isClothing);
   if (!checkConditions(item.conditions || [], trip) || count === 0) {
     return null;
   }
 
   return {
+    checked: (trip.checkedItems || []).includes(item.name),
     count,
     name: item.name
   };
@@ -53,16 +52,16 @@ function checkConditions(conditions, trip) {
   });
 }
 
-function getItemCount(isClothing, item, trip) {
-  return item.count * getFrequency(isClothing, item, trip);
+function getItemCount(item, trip, isClothing) {
+  return item.count * getFrequency(item, trip, isClothing);
 }
 
-function getFrequency(isClothing, item, trip) {
+function getFrequency(item, trip, isClothing) {
   const { unit, number } = item.frequency;
-  return Math.ceil(getFrequencyUnitCount(isClothing, unit, trip) / number);
+  return Math.ceil(getFrequencyUnitCount(unit, trip, isClothing) / number);
 }
 
-function getFrequencyUnitCount(isClothing, unit, trip) {
+function getFrequencyUnitCount(unit, trip, isClothing) {
   switch (unit) {
     case FreqUnits.Trip:
       return 1;

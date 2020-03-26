@@ -68,7 +68,7 @@ function Fields({
       );
     case "number":
       return (
-        <>
+        <React.Fragment>
           <input
             css={inputCss}
             id={uuid}
@@ -78,7 +78,7 @@ function Fields({
             {...props}
           />
           {unit}
-        </>
+        </React.Fragment>
       );
     case "select":
     case "multiselect":

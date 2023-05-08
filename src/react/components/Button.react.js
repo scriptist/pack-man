@@ -14,7 +14,7 @@ const Button = styled.button`
   text-align: center;
   text-decoration: none;
   transition: background 0.2s;
-  width: 200px;
+  width: 240px;
 
   &:hover:not(:disabled) {
     background: ${Colors.SubtleForeground};

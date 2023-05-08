@@ -4,7 +4,7 @@ import keyMirror from "keymirror";
 
 import {
   activities as defaultActivities,
-  list as defaultList
+  list as defaultList,
 } from "../../defaults";
 import firebase from "../../firebase";
 import Activities from "../components/config/Activities.react";
@@ -19,7 +19,7 @@ const { useEffect, useMemo, useState } = React;
 
 const TabOptions = keyMirror({
   List: null,
-  Activities: null
+  Activities: null,
 });
 
 function Configure({ user }) {
@@ -29,35 +29,29 @@ function Configure({ user }) {
   // List
   const listDbRef = useMemo(
     () => firebase.database().ref(`users/${user.uid}/items`),
-    [user]
+    [user],
   );
   const [list, listLoading, listError] = useListVals(listDbRef);
 
   // Activities
   const actDbRef = useMemo(
     () => firebase.database().ref(`users/${user.uid}/activities`),
-    [user]
+    [user],
   );
   const [activities, actLoading, actError] = useListVals(actDbRef);
 
   // Set default config if nothing is set yet
-  useEffect(
-    () => {
-      if (!listLoading && list.length === 0) {
-        listDbRef.set(defaultList);
-      }
-    },
-    [listDbRef, listLoading, list.length]
-  );
+  useEffect(() => {
+    if (!listLoading && list.length === 0) {
+      listDbRef.set(defaultList);
+    }
+  }, [listDbRef, listLoading, list.length]);
 
-  useEffect(
-    () => {
-      if (!actLoading && activities.length === 0) {
-        actDbRef.set(defaultActivities);
-      }
-    },
-    [actDbRef, actLoading, activities.length]
-  );
+  useEffect(() => {
+    if (!actLoading && activities.length === 0) {
+      actDbRef.set(defaultActivities);
+    }
+  }, [actDbRef, actLoading, activities.length]);
 
   if (listLoading || actLoading) {
     return <Spinner />;
@@ -73,11 +67,11 @@ function Configure({ user }) {
         <Categories
           activities={activities}
           categories={list}
-          onChange={c => listDbRef.set(c)}
+          onChange={(c) => listDbRef.set(c)}
         />
       )}
       {tab === TabOptions.Activities && (
-        <Activities activities={activities} onChange={a => actDbRef.set(a)} />
+        <Activities activities={activities} onChange={(a) => actDbRef.set(a)} />
       )}
     </Page>
   );

@@ -16,12 +16,12 @@ const Container = styled.button`
   border: none;
   color: inherit;
   cursor: pointer;
-  display: block;
+  display: flex;
   font: inherit;
   font-size: 22px;
   line-height: 1.6;
 
-  ${props =>
+  ${(props) =>
     props.checked
       ? css`
           opacity: 0.5;
@@ -34,11 +34,14 @@ const Container = styled.button`
   }
 `;
 
-const Count = styled.span`
+const Count = styled.div`
   display: inline-block;
+  flex-shrink: 0;
   width: 42px;
 `;
 
-const Name = styled.span``;
+const Name = styled.div`
+  text-align: left;
+`;
 
 export default Item;

@@ -7,7 +7,7 @@ import Item from "./Item.react";
 
 function Category({ category, onItemChange, trip }) {
   const items = category.items
-    .map(item => mapItem(item, trip, category.category === ClothingCategory))
+    .map((item) => mapItem(item, trip, category.category === ClothingCategory))
     .filter(Boolean);
 
   if (items.length === 0) {
@@ -35,21 +35,24 @@ function mapItem(item, trip, isClothing) {
   return {
     checked: (trip.checkedItems || []).includes(item.name),
     count,
-    name: item.name
+    name: item.name,
   };
 }
 
 function checkConditions(conditions, trip) {
-  return conditions.every(([field, value]) => {
-    const tripValue = trip[field];
-    if (typeof value === "boolean") {
-      return !!tripValue === value;
-    } else if (Array.isArray(tripValue)) {
-      return tripValue.includes(value);
-    }
+  return (
+    conditions.length === 0 ||
+    conditions.some(([field, value]) => {
+      const tripValue = trip[field];
+      if (typeof value === "boolean") {
+        return !!tripValue === value;
+      } else if (Array.isArray(tripValue)) {
+        return tripValue.includes(value);
+      }
 
-    return tripValue === value;
-  });
+      return tripValue === value;
+    })
+  );
 }
 
 function getItemCount(item, trip, isClothing) {
@@ -73,7 +76,7 @@ function getFrequencyUnitCount(unit, trip, isClothing) {
       return Math.ceil(
         (isClothing
           ? getClothingDays(unit, trip)
-          : getDays(trip.dates[0], trip.dates[1])) / 7
+          : getDays(trip.dates[0], trip.dates[1])) / 7,
       );
     case FreqUnits.Flight:
       return trip.flights || 0;
